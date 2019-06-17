@@ -1,0 +1,34 @@
+body{
+    width: 500px;
+    margin: 0 auto;
+}
+
+.todo-title{
+    width: 78px;
+    display: block;
+    margin: 5% auto;
+}
+
+.todo-block{
+    width: 360px;
+    margin: 0 auto;
+}
+
+.todo-task{
+    width: 250px;
+    height: 30px;
+    outline: none;
+    border-color: gray;
+    font-size: 14px;
+}
+
+.filter-block{
+    margin: 0 auto;
+    width: 280px;
+}
+
+.add-task, .complete-tasks, .all-tasks, .active-tasks{
+    margin: 5px;
+    width: 80px;
+    height: 36px;
+}
