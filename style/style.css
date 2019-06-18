@@ -9,7 +9,7 @@ body{
     margin: 5% auto;
 }
 
-.todo-block{
+.todo-form{
     width: 360px;
     margin: 0 auto;
 }
@@ -25,6 +25,10 @@ body{
 .filter-block{
     margin: 0 auto;
     width: 280px;
+}
+
+.todo-list{
+    list-style-type: none;
 }
 
 .add-task, .complete-tasks, .all-tasks, .active-tasks{
