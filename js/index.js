@@ -5,24 +5,38 @@ function App () {
 App.prototype = {
     getValue: function() {
         const value = document.querySelector('.todo-task').value;
-        return  task.value = value;
+        this.addNewTask( new Task(value));
     },
 
-    createNewTask: function () {
-        const tasksList = document.querySelector('.todo-list');
-        const newItem = document.createElement('li');
-        newItem.innerText= this.getValue();
-        tasksList.appendChild(newItem);
+    createNewTask: function (task) {
+        var newItem = document.createElement('li');
+        newItem.innerText = task.value;
+        newItem.style.color = !task.isComplete ? 'green' : 'red';
+        return newItem;
+    },
+
+    addNewTask: function(task) {
         this.list.push(task);
+        this.render()
+    },
+
+    render: function() {
+        var fragment = document.createDocumentFragment();
+        this.list.forEach(function(task) {
+            fragment.appendChild(this.createNewTask(task));
+        }.bind(this))
+
+        const tasksList = document.querySelector('.todo-list');
+        tasksList.appendChild(fragment)
     }
 
 };
 
-const app = new App();
+var app = new App();
 
-const buttonAdd = document.querySelector('.add-task');
-buttonAdd.addEventListener('click', () => {
-    app.createNewTask();
+var buttonAdd = document.querySelector('.add-task');
+buttonAdd.addEventListener('click', function () {
+    app.getValue();
     console.log(app.list);
 });
 
