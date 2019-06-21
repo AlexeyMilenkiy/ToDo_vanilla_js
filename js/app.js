@@ -26,12 +26,6 @@ App.prototype = {
         var tasksList = document.querySelector('.todo-list');
         tasksList.appendChild(fragment)
     }
-
 };
 
 var app = new App();
-
-var buttonAdd = document.querySelector('.add-task');
-buttonAdd.addEventListener('click', function () {
-    app.render()
-});

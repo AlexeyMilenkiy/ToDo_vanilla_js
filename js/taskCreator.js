@@ -5,6 +5,10 @@ TaskCreator.prototype= {
     getValue: function() {
         var inputTodo = document.querySelector('.todo-input');
         var valueFromInput = inputTodo.value;
+        valueFromInput.replace(/\s/gu, '');
+        if(!valueFromInput){
+            return
+        }
         inputTodo.value = ''; 
         return new Task(valueFromInput);
     },
@@ -16,12 +20,11 @@ TaskCreator.prototype= {
         return checkbox;
     },
 
-    createButton: function (clickHandler) {
+    createButtonDelete: function () {
         var button = document.createElement('input');
         button.classList.add('delete-single-task');
         button.type = 'button';
         button.value = 'X';
-        button.addEventListener('click', clickHandler);
         return button;
     },
 
@@ -37,7 +40,7 @@ TaskCreator.prototype= {
         var div = document.createElement('div');
         div.appendChild(this.createCheckTask());
         div.appendChild(this.createNewLi(task)); 
-        div.appendChild(this.createButton());
+        div.appendChild(this.createButtonDelete());
         div.classList.add('single-task');
         return div;
     }
