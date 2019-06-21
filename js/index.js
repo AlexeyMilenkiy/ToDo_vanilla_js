@@ -1,25 +1,37 @@
 function App () {
-    this.list = [];
+    this.listArr = [];
 }
 
 App.prototype = {
-    getValue: function() {
-        this.value = document.querySelector('.todo-task').value;
-        return  task.value = this.value;
+    
+    addNewTaskInArr: function() {
+        var taskInArr = taskCreator.getValue();
+        this.listArr.push(taskInArr);
     },
 
-    createNewTask : function () {
-        this.tasksList = document.querySelector('.todo-list');
-        this.newItem = document.createElement('li');
-        this.newItem.innerText= this.getValue();
-        this.tasksList.appendChild(this.newItem);
-        this.list.push(task);
+    clearDomList: function() {
+        var tasksList = document.querySelector('.todo-list');
+        tasksList.innerHTML = '';
+    },
+
+    render: function() {    
+        this.clearDomList();
+        this.addNewTaskInArr();
+
+        var fragment = document.createDocumentFragment();
+        this.listArr.forEach(function(task) {
+            fragment.appendChild(taskCreator.createNewTask(task));
+        }.bind(this));
+
+        var tasksList = document.querySelector('.todo-list');
+        tasksList.appendChild(fragment)
     }
+
 };
 
-const app = new App();
+var app = new App();
 
-const buttonAdd = document.querySelector('.add-task');
-buttonAdd.addEventListener('click', app.onSaveChange)
-
-
+var buttonAdd = document.querySelector('.add-task');
+buttonAdd.addEventListener('click', function () {
+    app.render()
+});

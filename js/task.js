@@ -3,5 +3,3 @@ function Task (value) {
     this.isComplete = false;
     this.value = value;
 }
-
-const task = new Task();
