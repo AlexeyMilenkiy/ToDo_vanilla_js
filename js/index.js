@@ -4,26 +4,22 @@ function App () {
 
 App.prototype = {
     getValue: function() {
-        const value = document.querySelector('.todo-task').value;
-        return  task.value = value;
+        this.value = document.querySelector('.todo-task').value;
+        return  task.value = this.value;
     },
 
-    createNewTask: function () {
-        const tasksList = document.querySelector('.todo-list');
-        const newItem = document.createElement('li');
-        newItem.innerText= this.getValue();
-        tasksList.appendChild(newItem);
+    createNewTask : function () {
+        this.tasksList = document.querySelector('.todo-list');
+        this.newItem = document.createElement('li');
+        this.newItem.innerText= this.getValue();
+        this.tasksList.appendChild(this.newItem);
         this.list.push(task);
     }
-
 };
 
 const app = new App();
 
 const buttonAdd = document.querySelector('.add-task');
-buttonAdd.addEventListener('click', () => {
-    app.createNewTask();
-    console.log(app.list);
-});
+buttonAdd.addEventListener('click', app.onSaveChange)
 
 
