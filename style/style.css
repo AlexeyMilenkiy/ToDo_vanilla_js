@@ -43,6 +43,8 @@ body{
 .add-task, .complete-tasks, .all-tasks, .active-tasks{
     width: 80px;
     height: 36px;
+    border-radius: 5px;
+    outline: none;
 }
 
 .single-task{
@@ -57,12 +59,15 @@ body{
 }
 
 .delete-single-task{
-    width: 30px;
+    width: 100px;
     height: 20px;
 }
 
 .check-single-task{
-    width: 20px;
+    width: 120px;
     height: 20px;
->>>>>>> a064da007b682df7322da1f455071fb47c7b9b07
+}
+
+.complete{
+    text-decoration: line-through;
 }

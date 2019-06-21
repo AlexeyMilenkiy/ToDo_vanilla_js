@@ -7,8 +7,4 @@ Button.prototype = {
             app.render();
         });
     }
-}
-
-// var button = new Button();
-//
-// button.addTask();
+};
