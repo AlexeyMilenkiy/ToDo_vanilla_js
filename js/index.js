@@ -5,11 +5,12 @@ function App () {
 App.prototype = {
     getValue: function() {
         const value = document.querySelector('.todo-task').value;
-        this.addNewTask( new Task(value));
+        this.addNewTask(new Task(value));
     },
 
     createNewTask: function (task) {
         var newItem = document.createElement('li');
+        newItem.classList.add('task-item');
         newItem.innerText = task.value;
         newItem.style.color = !task.isComplete ? 'green' : 'red';
         return newItem;
@@ -20,16 +21,21 @@ App.prototype = {
         this.render()
     },
 
+    clear: function() {
+        var todoList = document.querySelector('.todo-list');
+        todoList.innerHTML = '';
+    },
+
     render: function() {
+        this.clear();
         var fragment = document.createDocumentFragment();
         this.list.forEach(function(task) {
             fragment.appendChild(this.createNewTask(task));
-        }.bind(this))
+        }.bind(this));
 
-        const tasksList = document.querySelector('.todo-list');
+        var tasksList = document.querySelector('.todo-list');
         tasksList.appendChild(fragment)
     }
-
 };
 
 var app = new App();
