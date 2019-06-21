@@ -1,5 +1,5 @@
 body{
-    width: 500px;
+    width: 300px;
     margin: 0 auto;
 }
 
@@ -10,33 +10,59 @@ body{
 }
 
 .todo-form{
-    width: 360px;
+    width: 300px;
     margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
 }
 
-.todo-task{
-    width: 250px;
+.todo-input{
+    width: 200px;
     height: 30px;
     outline: none;
     border-color: gray;
     font-size: 14px;
 }
 
+.todo-block{
+    width: 300px;
+}
+
 .filter-block{
     margin: 0 auto;
-    width: 280px;
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .todo-list{
     list-style-type: none;
+    padding-left: 0;
 }
 
 .add-task, .complete-tasks, .all-tasks, .active-tasks{
-    margin: 5px;
     width: 80px;
     height: 36px;
 }
 
-.task-item {
-    margin: 0 auto;
+.single-task{
+    display: flex;
+    margin: 5px;
+}
+
+.single-task-value{
+    width: 360px;
+    display: flex;
+    justify-content: center;
+}
+
+.delete-single-task{
+    width: 30px;
+    height: 20px;
+}
+
+.check-single-task{
+    width: 20px;
+    height: 20px;
+>>>>>>> a064da007b682df7322da1f455071fb47c7b9b07
 }
