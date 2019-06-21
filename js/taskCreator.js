@@ -2,7 +2,7 @@ function TaskCreator() {}
 
 TaskCreator.prototype= {
 
-    getValue: function() {
+    returnObjTask: function() {
         var inputTodo = document.querySelector('.todo-input');
         var valueFromInput = inputTodo.value;
         valueFromInput.replace(/\s/gu, '');

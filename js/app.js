@@ -5,7 +5,7 @@ function App () {
 App.prototype = {
     
     addNewTaskInArr: function() {
-        var taskInArr = taskCreator.getValue();
+        var taskInArr = taskCreator.returnObjTask();
         this.listArr.push(taskInArr);
     },
 

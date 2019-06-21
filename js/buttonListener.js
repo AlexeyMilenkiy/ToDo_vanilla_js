@@ -1,6 +1,6 @@
-function Buttons () {}
+function Button() {}
 
-Buttons.prototype = {
+Button.prototype = {
     addTask: function() {
     var buttonAdd = document.querySelector('.add-task');
         buttonAdd.addEventListener('click', function () {
@@ -9,6 +9,6 @@ Buttons.prototype = {
     }
 }
 
-var buttons = new Buttons ();
+var button = new Button();
 
-buttons.addTask();
+button.addTask();
