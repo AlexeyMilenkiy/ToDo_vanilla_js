@@ -4,6 +4,7 @@ function App () {
     this.init = function() {
         this.addButton = document.querySelector('.add-task');
         this.addButton.addEventListener('click', this.addNewTaskInArr.bind(this));
+        filter.buttonsAddEvents();
     };
 }
 
@@ -11,6 +12,9 @@ App.prototype = {
 
     addNewTaskInArr: function() {
         var taskInArr = taskCreator.returnObjTask();
+        if(!taskInArr){
+            return
+        }
         this.listArr.push(taskInArr);
         this.render(this.listArr);
     },

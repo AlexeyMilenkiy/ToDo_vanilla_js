@@ -18,17 +18,17 @@ Filter.prototype = {
     },
 
     showAllTasks: function () {
-        var pushButton = arguments[0].target;
-        this.changeClass(pushButton);
+        var pressedButton = arguments[0].target;
+        this.changeClass(pressedButton);
         app.render(app.listArr);
     },
 
     showCompleteOrActiveTasks: function(bul) {
-        var pushButton = arguments[1].target;
+        var pressedButton = arguments[1].target;
           this.filterArr = app.listArr.filter(function (item) {
             return item.isComplete === bul
         });
-          this.changeClass(pushButton);
+          this.changeClass(pressedButton);
           app.render(this.filterArr);
     },
 
@@ -41,4 +41,4 @@ Filter.prototype = {
 };
 
 var filter = new Filter();
-filter.buttonsAddEvents();
+
