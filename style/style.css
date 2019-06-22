@@ -58,17 +58,16 @@ body{
     justify-content: center;
 }
 
-.delete-single-task{
-    width: 100px;
+.buttons-single-task{
     height: 20px;
-}
-
-.check-single-task{
-    width: 120px;
-    height: 20px;
+    border-radius: 5px;
 }
 
 .complete{
     text-decoration: line-through;
     color: darkgray;
+}
+
+.active-button{
+    background-color: gray;
 }

@@ -2,9 +2,9 @@ function App () {
     this.listArr = [];
 
     this.init = function() {
-        this.button = document.querySelector('.add-task');
-        this.button.addEventListener('click', this.addNewTaskInArr.bind(this));
-    }
+        this.addButton = document.querySelector('.add-task');
+        this.addButton.addEventListener('click', this.addNewTaskInArr.bind(this));
+    };
 }
 
 App.prototype = {
@@ -12,7 +12,7 @@ App.prototype = {
     addNewTaskInArr: function() {
         var taskInArr = taskCreator.returnObjTask();
         this.listArr.push(taskInArr);
-        this.render();
+        this.render(this.listArr);
     },
 
     clearDomList: function() {
@@ -24,7 +24,7 @@ App.prototype = {
         this.listArr = this.listArr.filter( function(item) {
           return item.id !== id
         });
-        this.render();
+        this.render(this.listArr);
     },
 
     checkTask: function(id) {
@@ -33,20 +33,20 @@ App.prototype = {
                item.isComplete = !item.isComplete;
            }
         });
-        this.render();
+        this.render(this.listArr);
     },
 
-    render: function() {
+    render: function(arr) {
         this.clearDomList();
 
         var fragment = document.createDocumentFragment();
-        this.listArr.forEach(function(item) {
+        arr.forEach(function(item) {
             fragment.appendChild(taskCreator.createNewTask(item, this.removeTask.bind(this),
                                                             this.checkTask.bind(this)));
         }.bind(this));
 
         var tasksList = document.querySelector('.todo-list');
-        tasksList.appendChild(fragment)
+        tasksList.appendChild(fragment);
     }
 };
 
