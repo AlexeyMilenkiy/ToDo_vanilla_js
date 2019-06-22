@@ -1,6 +1,4 @@
-function TaskCreator() {
-    // this.removeTask = removeTask;
-}
+function TaskCreator() {}
 
 TaskCreator.prototype= {
 
@@ -15,11 +13,15 @@ TaskCreator.prototype= {
         return new Task(valueFromInput);
     },
 
-    createCheckTask: function() {
-        var checkbox = document.createElement('input');
-        checkbox.classList.add('check-single-task');
-        checkbox.type = 'checkbox';
-        return checkbox;
+    createCheckTask: function(id, callback) {
+        var button = document.createElement('input');
+        button.addEventListener('click', function() {
+            callback(id);
+        });
+        button.classList.add('check-single-task');
+        button.type = 'button';
+        button.value = 'Complete';
+        return button;
     },
 
     createButtonDelete: function (id, callback) {
@@ -29,7 +31,7 @@ TaskCreator.prototype= {
         });
         button.classList.add('delete-single-task');
         button.type = 'button';
-        button.value = 'X';
+        button.value = 'Delete';
         return button;
     },
 
@@ -37,12 +39,14 @@ TaskCreator.prototype= {
         var newItem = document.createElement('li');
         newItem.classList.add('single-task-value');
         newItem.innerText = task.value;
+        var className = task.isComplete ? 'complete' : 'active';
+        newItem.classList.add(className);
         return newItem;
     },
 
-    createNewTask: function (task, removeTask) {
+    createNewTask: function (task, removeTask, checkTask) {
         var div = document.createElement('div');
-        div.appendChild(this.createCheckTask());
+        div.appendChild(this.createCheckTask(task.id, checkTask));
         div.appendChild(this.createNewLi(task));
         div.appendChild(this.createButtonDelete(task.id, removeTask));
         div.classList.add('single-task');

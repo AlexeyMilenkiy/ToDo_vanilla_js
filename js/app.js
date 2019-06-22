@@ -24,7 +24,16 @@ App.prototype = {
         this.listArr = this.listArr.filter( function(item) {
           return item.id !== id
         });
-        this.render()
+        this.render();
+    },
+
+    checkTask: function(id) {
+        this.listArr.forEach(function (item) {
+           if(item.id === id) {
+               item.isComplete = !item.isComplete;
+           }
+        });
+        this.render();
     },
 
     render: function() {
@@ -32,7 +41,8 @@ App.prototype = {
 
         var fragment = document.createDocumentFragment();
         this.listArr.forEach(function(item) {
-            fragment.appendChild(taskCreator.createNewTask(item, this.removeTask.bind(this)));
+            fragment.appendChild(taskCreator.createNewTask(item, this.removeTask.bind(this),
+                                                            this.checkTask.bind(this)));
         }.bind(this));
 
         var tasksList = document.querySelector('.todo-list');
