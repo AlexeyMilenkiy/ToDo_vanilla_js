@@ -70,4 +70,5 @@ body{
 
 .complete{
     text-decoration: line-through;
+    color: darkgray;
 }
