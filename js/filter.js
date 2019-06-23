@@ -26,7 +26,7 @@ Filter.prototype = {
 
     findButton: function () {
         this.buttonCollect = document.querySelector('.filter-block').children;
-        this.buttonArr = Array.prototype.slice.call(this.buttonCollect);
+        this.buttonArr.slice.call(this.buttonCollect);
         this.pushButton = this.buttonArr.filter(function(item) {
             if(item.matches('.active-button'))
             return item
@@ -64,7 +64,7 @@ Filter.prototype = {
 
     changeClass: function (btn) {
         this.buttonCollect = document.querySelector('.filter-block').children;
-        this.buttonArr = Array.prototype.slice.call(this.buttonCollect);
+        this.buttonArr.slice.call(this.buttonCollect);
         this.buttonArr.forEach(function(item) {
             item.classList.remove('active-button');
         });
