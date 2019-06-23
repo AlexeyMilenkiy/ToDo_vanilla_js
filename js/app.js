@@ -21,7 +21,9 @@ App.prototype = {
 
     clearDomList: function() {
         var tasksList = document.querySelector('.todo-list');
-        tasksList.innerHTML = '';
+        while (tasksList.firstChild) {
+            tasksList.removeChild(tasksList.firstChild);
+        }
     },
 
     removeTask: function(id) {

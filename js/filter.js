@@ -1,8 +1,15 @@
 function Filter () {
     this.filterArr = [];
+    this.mainArr = [];
 }
 
 Filter.prototype = {
+
+    setMainArray: function (arr, callback) {
+        this.mainArr = arr;
+        this.callback(this.filterArr);
+    },
+
 
     buttonsAddEvents : function () {
 
