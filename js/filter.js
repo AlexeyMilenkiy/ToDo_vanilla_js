@@ -1,51 +1,70 @@
 function Filter () {
     this.filterArr = [];
-    this.mainArr = [];
 }
 
 Filter.prototype = {
 
-    setMainArray: function (arr, callback) {
-        this.mainArr = arr;
-        this.callback(this.filterArr);
+    findButton: function () {
+        this.buttonCollect = document.querySelector('.filter-block').children;
+        this.buttonArr = Array.prototype.slice.call(this.buttonCollect);
+        this.pushButton = this.buttonArr.filter(function(item) {
+            if(item.matches('.active-button'))
+            return item
+        });
+        return this.pushButton;
     },
 
+    addFilteredTasks: function () {
+      this.activeBtn = this.findButton();
+      switch(this.activeBtn[0].innerText){
+          case 'All' : {
+            this.showAllTasks(this.activeBtn[0]);
+          }break;
+          case 'Active': {
+            this.renderFilterTasks(false, this.activeBtn[0]);
+          }break;
+          case 'Complete': {
+            this.renderFilterTasks(true, this.activeBtn[0]);
+          }break;
+      }
+    },
 
-    buttonsAddEvents : function () {
+    buttonsAddEvents: function () {
 
         this.allTasksButton = document.querySelector('.all-tasks');
-        this.allTasksButton.addEventListener('click',this.showAllTasks.bind(this));
+        this.allTasksButton.addEventListener('click',this.showAllTasks.bind(this, this.allTasksButton));
         this.allTasksButton.classList.add('active-button');
 
         this.activeButton = document.querySelector('.active-tasks');
-        this.activeButton.addEventListener('click', this.showCompleteOrActiveTasks.bind(this, false));
+        this.activeButton.addEventListener('click', this.renderFilterTasks.bind(this, false, this.activeButton));
 
         this.completedButton = document.querySelector('.complete-tasks');
-        this.completedButton.addEventListener('click', this.showCompleteOrActiveTasks.bind(this, true));
+        this.completedButton.addEventListener('click', this.renderFilterTasks.bind(this, true, this.completedButton));
     },
 
-    showAllTasks: function () {
-        var pressedButton = arguments[0].target;
+    showAllTasks: function (btn) {
+        var pressedButton = btn;
         this.changeClass(pressedButton);
         app.render(app.listArr);
     },
 
-    showCompleteOrActiveTasks: function(bul) {
-        var pressedButton = arguments[1].target;
-          this.filterArr = app.listArr.filter(function (item) {
+    renderFilterTasks: function(bul, btn) {
+        var pressedButton = btn;
+        this.filterArr = app.listArr.filter(function (item) {
             return item.isComplete === bul
         });
-          this.changeClass(pressedButton);
-          app.render(this.filterArr);
+        this.changeClass(pressedButton);
+        app.render(this.filterArr);
     },
 
-    changeClass: function (bt) {
-          this.allTasksButton.classList.remove('active-button');
-          this.activeButton.classList.remove('active-button');
-          this.completedButton.classList.remove('active-button');
-          bt.classList.add('active-button');
+    changeClass: function (btn) {
+        this.buttonCollect = document.querySelector('.filter-block').children;
+        this.buttonArr = Array.prototype.slice.call(this.buttonCollect);
+        this.buttonArr.forEach(function(item) {
+            item.classList.remove('active-button');
+        });
+        btn.classList.add('active-button');
     }
 };
 
 var filter = new Filter();
-

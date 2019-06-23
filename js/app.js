@@ -4,7 +4,10 @@ function App () {
     this.init = function() {
         this.addButton = document.querySelector('.add-task');
         this.addButton.addEventListener('click', this.addNewTaskInArr.bind(this));
+        var filter = new Filter();
         filter.buttonsAddEvents();
+
+        // filter.init(this.listArr, this.render.bind(this));
     };
 }
 
@@ -16,7 +19,7 @@ App.prototype = {
             return
         }
         this.listArr.push(taskInArr);
-        this.render(this.listArr);
+        filter.addFilteredTasks();
     },
 
     clearDomList: function() {
