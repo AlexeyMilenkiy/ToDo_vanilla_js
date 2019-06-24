@@ -17,6 +17,7 @@ App.prototype = {
         }
         this.listArr.push(this.taskInArr);
         filter.addFilteredTasks(this.listArr, this.render.bind(this));
+        paging.createBtnPaging(this.listArr);
     },
 
     removeTask: function(id) {

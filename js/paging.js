@@ -4,15 +4,25 @@ function Paging () {
 
 Paging.prototype = {
 
-    showBtnPagigng: function (arr) {
-        this.quantityBtn = arr.length/ this.indexPaging;
-        this.pagignBlock = document.querySelector('.paging-block');
-        this.pagigngBtn
+    clearPaging: function (pagingList) {
+        while (pagingList.firstChild) {
+            pagingList.removeChild(pagingList.firstChild);
+        }
+    },
+
+    createBtnPaging: function (arr) {
+        this.quantityBtn = Math.ceil(arr.length/ this.indexPaging);
+        var pagingBlock = document.querySelector('.paging-block');
+        this.clearPaging(pagingBlock);
+
         var fragment = document.createDocumentFragment();
         for(var i = 0; i < this.quantityBtn; i++){
-            fragment.appendChild()
+            var pagingBtn = document.createElement('button');
+            pagingBtn.classList.add('paging-button');
+            pagingBtn.innerText = i+1 + '';
+            fragment.appendChild(pagingBtn);
         }
-        this.pagignBlock
+        pagingBlock.appendChild(fragment);
     },
 
     showTasks: function (btnPag, arr) {
