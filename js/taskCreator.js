@@ -13,25 +13,13 @@ TaskCreator.prototype= {
         return new Task(valueFromInput);
     },
 
-    createCheckTask: function(id, callback) {
-        var button = document.createElement('input');
+    createButtonsForTask: function (id, callback, text) {
+        var button = document.createElement('button');
         button.addEventListener('click', function() {
             callback(id);
         });
-        button.classList.add('check-single-task');
-        button.type = 'button';
-        button.value = 'Complete';
-        return button;
-    },
-
-    createButtonDelete: function (id, callback) {
-        var button = document.createElement('input');
-        button.addEventListener('click', function() {
-            callback(id);
-        });
-        button.classList.add('delete-single-task');
-        button.type = 'button';
-        button.value = 'Delete';
+        button.classList.add('buttons-single-task');
+        button.innerText = text;
         return button;
     },
 
@@ -46,9 +34,9 @@ TaskCreator.prototype= {
 
     createNewTask: function (task, removeTask, checkTask) {
         var div = document.createElement('div');
-        div.appendChild(this.createCheckTask(task.id, checkTask));
+        div.appendChild(this.createButtonsForTask(task.id, checkTask, 'Complete'));
         div.appendChild(this.createNewLi(task));
-        div.appendChild(this.createButtonDelete(task.id, removeTask));
+        div.appendChild(this.createButtonsForTask(task.id, removeTask, 'Delete'));
         div.classList.add('single-task');
         return div;
     }
