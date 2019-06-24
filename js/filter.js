@@ -1,7 +1,7 @@
 function Filter () {
-    this.filterArr = [];
+    // this.filterArr = [];
 
-    this.init = function (arr, callback) {
+    this.initFilter = function (arr, callback) {
         var that = this;
         this.buttonCollect = document.querySelector('.filter-block').children;
         this.buttonArr = Array.prototype.slice.call(this.buttonCollect);

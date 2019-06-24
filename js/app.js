@@ -4,33 +4,29 @@ function App () {
     this.init = function() {
         this.addButton = document.querySelector('.add-task');
         this.addButton.addEventListener('click', this.addNewTaskInArr.bind(this));
-        filter.init(this.listArr, this.render.bind(this));
+        filter.initFilter(this.listArr, this.render.bind(this));
     };
 }
 
 App.prototype = {
 
     addNewTaskInArr: function() {
-        var taskInArr = taskCreator.returnObjTask();
-        if(!taskInArr){
+        this.taskInArr = taskCreator.returnObjTask();
+        if(!this.taskInArr){
             return
         }
-        this.listArr.push(taskInArr);
+        this.listArr.push(this.taskInArr);
         filter.addFilteredTasks(this.listArr, this.render.bind(this));
     },
 
-    clearDomList: function() {
-        var tasksList = document.querySelector('.todo-list');
-        while (tasksList.firstChild) {
-            tasksList.removeChild(tasksList.firstChild);
-        }
-    },
-
     removeTask: function(id) {
-        this.listArr = this.listArr.filter( function(item) {
-          return item.id !== id
+        var that = this;
+        this.listArr.forEach( function(item, i) {
+          if(item.id === id){
+              that.listArr.splice(i, 1);
+          }
         });
-        this.render(this.listArr);
+        filter.addFilteredTasks(this.listArr, this.render.bind(this));
     },
 
     checkTask: function(id) {
@@ -39,7 +35,14 @@ App.prototype = {
                item.isComplete = !item.isComplete;
            }
         });
-        this.render(this.listArr);
+        filter.addFilteredTasks(this.listArr, this.render.bind(this));
+    },
+
+    clearDomList: function() {
+        var tasksList = document.querySelector('.todo-list');
+        while (tasksList.firstChild) {
+            tasksList.removeChild(tasksList.firstChild);
+        }
     },
 
     render: function(arr) {
