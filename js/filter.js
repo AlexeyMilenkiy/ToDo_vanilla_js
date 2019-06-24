@@ -1,5 +1,4 @@
 function Filter () {
-    // this.filterArr = [];
 
     this.initFilter = function (arr, callback) {
         var that = this;
