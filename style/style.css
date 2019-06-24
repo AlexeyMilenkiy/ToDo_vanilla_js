@@ -47,6 +47,14 @@ body{
     outline: none;
 }
 
+.add-task:active{
+    background-color: darkgray;
+}
+
+.filter-block button:active{
+    background-color: darkgray;
+}
+
 .single-task{
     display: flex;
     margin: 5px;
