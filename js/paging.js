@@ -1,5 +1,9 @@
 function Paging () {
     this.indexPaging = 5;
+
+    this.pagingInit = function(){
+
+    }
 }
 
 Paging.prototype = {
