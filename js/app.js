@@ -5,6 +5,7 @@ function App () {
         this.addButton = document.querySelector('.add-task');
         this.addButton.addEventListener('click', this.addNewTaskInArr.bind(this));
         filter.initFilter(this.listArr, this.render.bind(this));
+        paging.pagingInit();
     };
 }
 
@@ -18,6 +19,7 @@ App.prototype = {
         this.listArr.push(this.taskInArr);
         filter.addFilteredTasks(this.listArr, this.render.bind(this));
         paging.createBtnPaging(this.listArr);
+
     },
 
     removeTask: function(id) {
@@ -48,7 +50,6 @@ App.prototype = {
 
     render: function(arr) {
         this.clearDomList();
-
         var fragment = document.createDocumentFragment();
         arr.forEach(function(item) {
             fragment.appendChild(taskCreator.createNewTask(item, this.removeTask.bind(this),

@@ -2,11 +2,29 @@ function Paging () {
     this.indexPaging = 5;
 
     this.pagingInit = function(){
-
+        var that = this;
+        this.pagingBlock = document.querySelector('.paging-block');
+        this.pagingBlock.onclick = function(e){
+            this.pushBtnPaging = e.target;
+            that.showTasks(+this.pushBtnPaging.innerText, app.listArr);
+            that.changeClassPaging(this.pushBtnPaging);
+        }
     }
 }
 
 Paging.prototype = {
+
+    changeClassPaging: function(btn) {
+        this.pagingCollect = document.querySelector('.paging-block').children;
+        this.pagingArr = Array.prototype.slice.call(this.pagingCollect);
+        if(!this.pagingArr.length){
+            return
+        }
+        this.pagingArr.forEach(function (item) {
+            item.classList.remove('active-button');
+        });
+        btn.classList.add('active-button');
+    },
 
     clearPaging: function (pagingList) {
         while (pagingList.firstChild) {
@@ -39,3 +57,4 @@ Paging.prototype = {
 };
 
 var paging = new Paging();
+
