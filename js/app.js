@@ -5,7 +5,7 @@ function App () {
         var addButton = document.querySelector('.add-task');
         addButton.addEventListener('click', this.addNewTaskInArr.bind(this));
         filter.initFilterListener(this.render.bind(this));
-        // paging.pagingInit();
+        paging.pagingInit(this.render.bind(this));
     };
 }
 

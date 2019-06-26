@@ -1,21 +1,29 @@
 function Paging () {
     this.indexPaging = 5;
 
-    this.pagingInit = function(){
+    this.pagingInit = function(callback){
         var that = this;
-        this.pagingBlock = document.querySelector('.paging-block');
-        this.pagingBlock.onclick = function(e){
-            this.pushBtnPaging = e.target;
+        var pagingBlock = document.querySelector('.paging-block');
+        pagingBlock.onclick = function(e){
+            var pushedBtnPaging = e.target;
             if(e.target.tagName === 'DIV'){
                 return
             }
-            // that.addClassBtnPaging(this.pushBtnPaging);
-            that.showTasks(this.pushBtnPaging, app.listArr);
+            that.changeClassBtnPaging(pushedBtnPaging);
+            callback();
         }
     }
 }
 
 Paging.prototype = {
+
+    changeClassBtnPaging: function (btn) {
+        var buttonArr = this.createArrayFromCollect();
+        buttonArr.forEach(function(item) {
+            item.classList.remove('active-button');
+        });
+        btn.classList.add('active-button');
+    },
 
     createArrayFromCollect: function() {
         var buttonCollect = document.querySelector('.paging-block').children;
@@ -23,30 +31,48 @@ Paging.prototype = {
     },
 
     findActivePagingBtn: function () {
-        var that = this;
         var buttonArr = this.createArrayFromCollect();
-        var activeBtnPaging = '';
-        buttonArr.forEach(function(item) {
-            if(item.matches('.active-button')){
-                activeBtnPaging = item;
-            }else{
-                var buttonArr = that.createArrayFromCollect();
-                buttonArr[0].classList.add('active-button');
-                activeBtnPaging = buttonArr[0];
-            }
+        if(buttonArr.length === 0){
+            return
+        }
+        var activeBtnPaging = null;
+        var haveClass = buttonArr.some(function(item) {
+            return item.matches('.active-button');
         });
+        if(haveClass){
+            buttonArr.forEach(function(item) {
+                if(item.matches('.active-button')){
+                   activeBtnPaging = item;
+                }
+            });
+        }else{
+            buttonArr[0].classList.add('active-button');
+            activeBtnPaging = buttonArr[0];
+        }
+
         return activeBtnPaging;
     },
 
     clearPagingBlock: function (pagingList) {
-        while (pagingList.firstChild) {
-            pagingList.removeChild(pagingList.firstChild);
+        while (pagingList.lastChild) {
+            pagingList.removeChild(pagingList.lastChild);
         }
     },
 
     createBtnPaging: function (arr) {
-        var quantityBtn = Math.ceil(arr.length/ this.indexPaging);
         var pagingBlock = document.querySelector('.paging-block');
+        if(arr.length === 0) {
+            this.clearPagingBlock(pagingBlock);
+        }
+        var buttonArr = this.createArrayFromCollect();
+        var activeBtn = null;
+        if(buttonArr.length !== 0) {
+            buttonArr.forEach(function(item, i){
+                if(item.matches('.active-button'))
+                    activeBtn = i;
+            });
+        }
+        var quantityBtn = Math.ceil(arr.length/ this.indexPaging);
         this.clearPagingBlock(pagingBlock);
 
         var fragment = document.createDocumentFragment();
@@ -57,9 +83,15 @@ Paging.prototype = {
             fragment.appendChild(pagingBtn);
         }
         pagingBlock.appendChild(fragment);
+        if(activeBtn !== null && (this.createArrayFromCollect().length !== 0)){
+            this.createArrayFromCollect()[activeBtn].classList.add('active-button');
+        }
     },
 
     returnPagingArray: function (btn, array) {
+        if(!btn){
+            return array
+        }
         var activeBtn = +btn.textContent - 1;
         var startIndex = this.indexPaging * activeBtn;
         var endIndex = this.indexPaging * activeBtn + this.indexPaging;
@@ -71,36 +103,6 @@ Paging.prototype = {
         var activeBtn = this.findActivePagingBtn(arr);
         return this.returnPagingArray(activeBtn, arr);
     }
-
-    // changeStateTask: function (arr) {
-    //     this.activeBtn = this.findActivePagingBtn();
-    //     this.showTasks(this.activeBtn, arr);
-    //     // this.createBtnPaging(arr);
-    // },
-
-
-
-    // addClassBtnPaging: function (btn) {
-    //     this.buttonCollect = document.querySelector('.paging-block').children;
-    //     if(btn === undefined){
-    //         btn = this.buttonCollect[0]
-    //     }
-    //     this.buttonArr = Array.prototype.slice.call(this.buttonCollect);
-    //     this.buttonArr.forEach(function(item) {
-    //         item.classList.remove('active-button');
-    //     });
-    //     btn.classList.add('active-button');
-    // },
-
-    // amountTasks: function (arr) {
-    //     this.createBtnPaging(arr);
-    //     this.addClassBtnPaging();
-    //     if(arr.length <= this.indexPaging){
-    //         app.render(arr)
-    //     }
-    // },
-
-
 };
 
 var paging = new Paging();
