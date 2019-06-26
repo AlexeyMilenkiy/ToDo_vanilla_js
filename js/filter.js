@@ -50,7 +50,7 @@ Filter.prototype = {
 
     showAllTasks: function (btn, arr, callback) {
         this.changeClass(btn);
-        callback(arr);
+        // callback(arr);
     },
 
     renderFilterTasks: function (bul, btn, arr, callback) {
@@ -58,7 +58,7 @@ Filter.prototype = {
             return item.isComplete === bul
         });
         this.changeClass(btn);
-        callback(this.filterArr);
+        // callback(this.filterArr);
     },
 
     changeClass: function (btn) {

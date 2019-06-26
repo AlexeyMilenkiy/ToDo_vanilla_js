@@ -18,8 +18,7 @@ App.prototype = {
         }
         this.listArr.push(this.taskInArr);
         filter.addFilteredTasks(this.listArr, this.render.bind(this));
-        paging.createBtnPaging(this.listArr);
-
+        paging.amountTasks(this.listArr);
     },
 
     removeTask: function(id) {
@@ -52,8 +51,8 @@ App.prototype = {
         this.clearDomList();
         var fragment = document.createDocumentFragment();
         arr.forEach(function(item) {
-            fragment.appendChild(taskCreator.createNewTask(item, this.removeTask.bind(this),
-                                                            this.checkTask.bind(this)));
+            fragment.appendChild(taskCreator.createNewTask(item, 
+            this.removeTask.bind(this), this.checkTask.bind(this)));
         }.bind(this));
 
         var tasksList = document.querySelector('.todo-list');
