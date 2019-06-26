@@ -18,26 +18,28 @@ App.prototype = {
         }
         this.listArr.push(this.taskInArr);
         filter.addFilteredTasks(this.listArr, this.render.bind(this));
-        paging.createBtnPaging(this.listArr);
+        paging.amountTasks(this.listArr);
     },
 
     removeTask: function(id) {
         var that = this;
         this.listArr.forEach( function(item, i) {
-          if(item.id === id){
-              that.listArr.splice(i, 1);
-          }
+            if(item.id === id){
+                that.listArr.splice(i, 1);
+            }
         });
         filter.addFilteredTasks(this.listArr, this.render.bind(this));
+        paging.changeStateTask(this.listArr);
     },
 
     checkTask: function(id) {
         this.listArr.forEach(function (item) {
-           if(item.id === id) {
-               item.isComplete = !item.isComplete;
-           }
+            if(item.id === id) {
+                item.isComplete = !item.isComplete;
+            }
         });
         filter.addFilteredTasks(this.listArr, this.render.bind(this));
+        paging.changeStateTask(this.listArr);
     },
 
     clearDomList: function() {
@@ -51,8 +53,8 @@ App.prototype = {
         this.clearDomList();
         var fragment = document.createDocumentFragment();
         arr.forEach(function(item) {
-            fragment.appendChild(taskCreator.createNewTask(item, this.removeTask.bind(this),
-                                                            this.checkTask.bind(this)));
+            fragment.appendChild(taskCreator.createNewTask(item,
+                this.removeTask.bind(this), this.checkTask.bind(this)));
         }.bind(this));
 
         var tasksList = document.querySelector('.todo-list');
