@@ -29,6 +29,7 @@ App.prototype = {
           }
         });
         filter.addFilteredTasks(this.listArr, this.render.bind(this));
+        paging.changeStateTask(this.listArr);
     },
 
     checkTask: function(id) {
@@ -38,6 +39,7 @@ App.prototype = {
            }
         });
         filter.addFilteredTasks(this.listArr, this.render.bind(this));
+        paging.changeStateTask(this.listArr);
     },
 
     clearDomList: function() {
