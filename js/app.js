@@ -18,7 +18,6 @@ App.prototype = {
         }
         this.listArr.push(this.taskInArr);
         this.render();
-        // paging.amountTasks(this.listArr);
     },
 
     removeTask: function(id) {
@@ -29,7 +28,6 @@ App.prototype = {
             }
         });
         this.render();
-        // paging.changeStateTask(this.listArr);
     },
 
     checkTask: function(id) {
@@ -39,7 +37,6 @@ App.prototype = {
             }
         });
         this.render();
-        // paging.changeStateTask(this.listArr);
     },
 
     clearDomList: function() {
@@ -50,14 +47,13 @@ App.prototype = {
     },
 
     render: function() {
-        var arr = filter.createFilteredArray(this.listArr);
-
-        // arr = setPagination(arr)
+        var filteredArr = filter.createFilteredArray(this.listArr); //how filter button active?
+        paging.createBtnPaging(filteredArr);
         // setStorage()
         //
         this.clearDomList();
         var fragment = document.createDocumentFragment();
-        arr.forEach(function(item) {
+        filteredArr.forEach(function(item) {
             fragment.appendChild(taskCreator.createNewTask(item,
                 this.removeTask.bind(this), this.checkTask.bind(this)));
         }.bind(this));
