@@ -2,8 +2,8 @@ function App () {
     this.listArr = [];
 
     this.init = function() {
-        this.addButton = document.querySelector('.add-task');
-        this.addButton.addEventListener('click', this.addNewTaskInArr.bind(this));
+        var addButton = document.querySelector('.add-task');
+        addButton.addEventListener('click', this.addNewTaskInArr.bind(this));
         filter.initFilterListener(this.render.bind(this));
         // paging.pagingInit();
     };
@@ -12,11 +12,11 @@ function App () {
 App.prototype = {
 
     addNewTaskInArr: function() {
-        this.taskInArr = taskCreator.returnObjTask();
-        if(!this.taskInArr){
+        var taskInArr = taskCreator.returnObjTask();
+        if(!taskInArr){
             return
         }
-        this.listArr.push(this.taskInArr);
+        this.listArr.push(taskInArr);
         this.render();
     },
 
@@ -47,13 +47,13 @@ App.prototype = {
     },
 
     render: function() {
-        var filteredArr = filter.createFilteredArray(this.listArr); //how filter button active?
-        paging.createBtnPaging(filteredArr);
+        var filteredArr = filter.createFilteredArray(this.listArr); //array with how filter button active?
+        var finishArr = paging.setPagingArray(filteredArr); //
         // setStorage()
         //
         this.clearDomList();
         var fragment = document.createDocumentFragment();
-        filteredArr.forEach(function(item) {
+        finishArr.forEach(function(item) {
             fragment.appendChild(taskCreator.createNewTask(item,
                 this.removeTask.bind(this), this.checkTask.bind(this)));
         }.bind(this));
