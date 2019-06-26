@@ -14,6 +14,7 @@ function Paging () {
 
 Paging.prototype = {
 
+
     changeClassPaging: function(btn) {
         this.pagingCollect = document.querySelector('.paging-block').children;
         this.pagingArr = Array.prototype.slice.call(this.pagingCollect);
@@ -45,6 +46,30 @@ Paging.prototype = {
             fragment.appendChild(pagingBtn);
         }
         pagingBlock.appendChild(fragment);
+    },
+
+    showTasksWitthFilter: function () {
+        this.activeFilter = filter.findButton()[0].textContent;
+        this.newArr = arr.slice(startIndex, endIndex);
+        switch (this.activeFilter){
+            case 'All': {
+                app.render(this.newArr);
+            }break;
+            case 'Active': {
+                this.newFilterArr = this.newArr.filter( function (item) {
+                    return item.isComplete === false
+                });
+                app.render(this.newFilterArr);
+            }break;
+            case 'Complete': {
+                this.newFilterArr = this.newArr.filter( function (item) {
+                    return item.isComplete === true
+                });
+                app.render(this.newFilterArr);
+            }break;
+
+
+        }
     },
 
     showTasks: function (btnPag, arr) {
