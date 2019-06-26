@@ -4,8 +4,8 @@ function App () {
     this.init = function() {
         this.addButton = document.querySelector('.add-task');
         this.addButton.addEventListener('click', this.addNewTaskInArr.bind(this));
-        filter.initFilter(this.listArr, this.render.bind(this));
-        paging.pagingInit();
+        filter.initFilterListener(this.render.bind(this));
+        // paging.pagingInit();
     };
 }
 
@@ -17,8 +17,8 @@ App.prototype = {
             return
         }
         this.listArr.push(this.taskInArr);
-        filter.addFilteredTasks(this.listArr, this.render.bind(this));
-        paging.amountTasks(this.listArr);
+        this.render();
+        // paging.amountTasks(this.listArr);
     },
 
     removeTask: function(id) {
@@ -28,8 +28,8 @@ App.prototype = {
                 that.listArr.splice(i, 1);
             }
         });
-        filter.addFilteredTasks(this.listArr, this.render.bind(this));
-        paging.changeStateTask(this.listArr);
+        this.render();
+        // paging.changeStateTask(this.listArr);
     },
 
     checkTask: function(id) {
@@ -38,8 +38,8 @@ App.prototype = {
                 item.isComplete = !item.isComplete;
             }
         });
-        filter.addFilteredTasks(this.listArr, this.render.bind(this));
-        paging.changeStateTask(this.listArr);
+        this.render();
+        // paging.changeStateTask(this.listArr);
     },
 
     clearDomList: function() {
@@ -49,7 +49,12 @@ App.prototype = {
         }
     },
 
-    render: function(arr) {
+    render: function() {
+        var arr = filter.createFilteredArray(this.listArr);
+
+        // arr = setPagination(arr)
+        // setStorage()
+        //
         this.clearDomList();
         var fragment = document.createDocumentFragment();
         arr.forEach(function(item) {

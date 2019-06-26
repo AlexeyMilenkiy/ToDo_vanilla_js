@@ -1,20 +1,28 @@
 function Filter () {
 
-    this.initFilter = function (arr, callback) {
+    this.initFilterListener = function (callback) {
         var that = this;
-        this.buttonCollect = document.querySelector('.filter-block').children;
-        this.buttonArr = Array.prototype.slice.call(this.buttonCollect);
-        this.buttonArr.forEach(function(item) {
+        var buttonArr = this.createArrFromFilterBtns();
+        buttonArr.forEach(function(item) {
             switch (item.className) {
                 case 'all-tasks': {
                     item.classList.add('active-button');
-                    item.addEventListener('click', that.showAllTasks.bind(that, item, arr, callback));
+                    item.addEventListener('click', function(){
+                        that.changeClass(item);
+                        callback();
+                    });
                 }break;
                 case 'active-tasks': {
-                    item.addEventListener('click', that.renderFilterTasks.bind(that, false, item, arr, callback));
+                    item.addEventListener('click', function(){
+                        that.changeClass(item);
+                        callback();
+                    });
                 }break;
                 case 'complete-tasks': {
-                    item.addEventListener('click', that.renderFilterTasks.bind(that, true, item, arr, callback));
+                    item.addEventListener('click', function(){
+                        that.changeClass(item);
+                        callback();
+                    });
                 }break;
             }
         });
@@ -23,53 +31,59 @@ function Filter () {
 
 Filter.prototype = {
 
-    findButton: function () {
-        this.buttonCollect = document.querySelector('.filter-block').children;
-        this.buttonArr.slice.call(this.buttonCollect);
-        this.pushButton = this.buttonArr.filter(function(item) {
-            if(item.matches('.active-button'))
-            return item
-        });
-        return this.pushButton;
+    createArrFromFilterBtns: function() {
+        var buttonCollect = document.querySelector('.filter-block').children;
+        return Array.prototype.slice.call(buttonCollect);
     },
 
-    addFilteredTasks: function (arr, callback) {
-      this.activeBtn = this.findButton();
-      switch(this.activeBtn[0].innerText){
+    findActiveFilter: function () {
+        var buttonArr = this.createArrFromFilterBtns();
+        var pushButton = '';
+        buttonArr.forEach(function(item) {
+            if(item.matches('.active-button'))
+            pushButton = item;
+        });
+        return pushButton;
+    },
+
+    createFilteredArray: function (arr) {
+      var activeBtn = this.findActiveFilter();
+      switch(activeBtn.innerText){
           case 'All' : {
-            this.showAllTasks(this.activeBtn[0], arr, callback);
-          }break;
+           return this.returnAllTasks(activeBtn, arr);
+          }
           case 'Active': {
-            this.renderFilterTasks(false, this.activeBtn[0], arr, callback);
-          }break;
+            return this.returnFilteredTasks(false, activeBtn, arr);
+          }
           case 'Complete': {
-            this.renderFilterTasks(true, this.activeBtn[0], arr, callback);
-          }break;
+            return this.returnFilteredTasks(true, activeBtn, arr);
+          }
       }
     },
 
-    showAllTasks: function (btn, arr, callback) {
+    returnAllTasks: function (btn, arr) {
         this.changeClass(btn);
-        // callback(arr);
+        return arr
     },
 
-    renderFilterTasks: function (bul, btn, arr, callback) {
-        this.filterArr = arr.filter(function (item) {
-            return item.isComplete === bul
+    returnFilteredTasks: function (bool, btn, arr) {
+        var filterArr = [];
+        arr.forEach(function (item) {
+           if(item.isComplete === bool){
+               filterArr.push(item);
+           }
         });
         this.changeClass(btn);
-        // callback(this.filterArr);
+        return filterArr
     },
 
     changeClass: function (btn) {
-        this.buttonCollect = document.querySelector('.filter-block').children;
-        this.buttonArr.slice.call(this.buttonCollect);
-        this.buttonArr.forEach(function(item) {
+        var buttonArr = this.createArrFromFilterBtns();
+        buttonArr.forEach(function(item) {
             item.classList.remove('active-button');
         });
         btn.classList.add('active-button');
     }
-
 };
 
 var filter = new Filter();

@@ -76,7 +76,7 @@ Paging.prototype = {
     },
 
     findFilter: function(arr) {
-        var activeFilter = filter.findButton().textContent;
+        var activeFilter = filter.findActiveFilter().textContent;
         this.filterArr = [];
         switch (activeFilter) {
             case 'All': {
