@@ -83,7 +83,7 @@ Paging.prototype = {
             fragment.appendChild(pagingBtn);
         }
         pagingBlock.appendChild(fragment);
-        if(activeBtn !== null && (this.createArrayFromCollect().length !== 0)){
+        if(activeBtn !== null && (this.createArrayFromCollect().length !== 0 && this.createArrayFromCollect().length === buttonArr.length )){
             this.createArrayFromCollect()[activeBtn].classList.add('active-button');
         }
     },
