@@ -47,11 +47,33 @@ Paging.prototype = {
         pagingBlock.appendChild(fragment);
     },
 
+    returnFilterArray: function(arr) {
+        this.activeFilter = filter.findButton()[0].textContent;
+        this.pagingWithFilterArr = [];
+        switch(this.activeFilter) {
+            case 'All': {
+                this.pagingWithFilterArr = arr;
+            }break;
+            case 'Active': {
+                this.pagingWithFilterArr = arr.filter(function (item) {
+                    return item.isComplete === false
+                })
+            }break;
+            case 'Complete': {
+                this.pagingWithFilterArr = arr.filter(function (item) {
+                    return item.isComplete === true
+                })
+            }break;
+        }
+        return this.pagingWithFilterArr;
+    },
+
     showTasks: function (btnPag, arr) {
+        this.newArray = this.returnFilterArray(arr);
         this.btnPag = btnPag - 1;
         var startIndex = this.indexPaging * this.btnPag;
         var endIndex = this.indexPaging * this.btnPag + this.indexPaging;
-        this.newArr = arr.slice(startIndex, endIndex);
+        this.newArr = this.newArray.slice(startIndex, endIndex);
         app.render(this.newArr);
     }
 };
