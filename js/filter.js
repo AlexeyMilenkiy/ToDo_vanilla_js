@@ -38,7 +38,7 @@ Filter.prototype = {
 
     findActiveFilter: function () {
         var buttonArr = this.createArrFromFilterBtns();
-        var pushButton = '';
+        var pushButton = null;
         buttonArr.forEach(function(item) {
             if(item.matches('.active-button'))
             pushButton = item;
@@ -46,7 +46,7 @@ Filter.prototype = {
         return pushButton;
     },
 
-    createFilteredArray: function (arr) {
+    setFilteredArray: function (arr) {
       var activeBtn = this.findActiveFilter();
       switch(activeBtn.innerText){
           case 'All' : {

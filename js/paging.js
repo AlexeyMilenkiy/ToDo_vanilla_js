@@ -1,15 +1,14 @@
 function Paging () {
     this.indexPaging = 5;
+    this.isActivePage = null;
 
     this.pagingInit = function(callback){
         var that = this;
         var pagingBlock = document.querySelector('.paging-block');
         pagingBlock.onclick = function(e){
-            var pushedBtnPaging = e.target;
-            if(e.target.tagName === 'DIV'){
-                return
-            }
-            that.changeClassBtnPaging(pushedBtnPaging);
+            var pushedBtnPaging = +e.target.textContent;
+            if(e.target.tagName === 'DIV') return;
+            that.isActivePage = pushedBtnPaging;
             callback();
         }
     }
@@ -17,40 +16,18 @@ function Paging () {
 
 Paging.prototype = {
 
-    changeClassBtnPaging: function (btn) {
-        var buttonArr = this.createArrayFromCollect();
-        buttonArr.forEach(function(item) {
-            item.classList.remove('active-button');
-        });
-        btn.classList.add('active-button');
-    },
-
     createArrayFromCollect: function() {
         var buttonCollect = document.querySelector('.paging-block').children;
         return Array.prototype.slice.call(buttonCollect);
     },
 
-    findActivePagingBtn: function () {
+    changeClassBtnPaging: function () {
+        var that = this;
         var buttonArr = this.createArrayFromCollect();
-        if(buttonArr.length === 0){
-            return
-        }
-        var activeBtnPaging = null;
-        var haveClass = buttonArr.some(function(item) {
-            return item.matches('.active-button');
+        buttonArr.forEach(function(item, i) {
+            item.classList.remove('active-button');
+            if(i+1 === that.isActivePage) item.classList.add('active-button');
         });
-        if(haveClass){
-            buttonArr.forEach(function(item) {
-                if(item.matches('.active-button')){
-                   activeBtnPaging = item;
-                }
-            });
-        }else{
-            buttonArr[0].classList.add('active-button');
-            activeBtnPaging = buttonArr[0];
-        }
-
-        return activeBtnPaging;
     },
 
     clearPagingBlock: function (pagingList) {
@@ -59,49 +36,50 @@ Paging.prototype = {
         }
     },
 
-    createBtnPaging: function (arr) {
+    createButtonPagination: function(arr) {
+        var that = this;
         var pagingBlock = document.querySelector('.paging-block');
-        if(arr.length === 0) {
-            this.clearPagingBlock(pagingBlock);
-        }
-        var buttonArr = this.createArrayFromCollect();
-        var activeBtn = null;
-        if(buttonArr.length !== 0) {
-            buttonArr.forEach(function(item, i){
-                if(item.matches('.active-button'))
-                    activeBtn = i;
-            });
-        }
-        var quantityBtn = Math.ceil(arr.length/ this.indexPaging);
+        var amountPages = Math.ceil(arr.length/ this.indexPaging);
         this.clearPagingBlock(pagingBlock);
-
         var fragment = document.createDocumentFragment();
-        for(var i = 0; i < quantityBtn; i++){
+        for(var i = 0; i < amountPages; i++){
             var pagingBtn = document.createElement('button');
+            if(i+1 === that.isActivePage) pagingBtn.classList.add('active-button');
             pagingBtn.classList.add('paging-button');
             pagingBtn.innerText = i+1 + '';
             fragment.appendChild(pagingBtn);
         }
         pagingBlock.appendChild(fragment);
-        if(activeBtn !== null && (this.createArrayFromCollect().length !== 0 && this.createArrayFromCollect().length === buttonArr.length )){
-            this.createArrayFromCollect()[activeBtn].classList.add('active-button');
-        }
+    },
+
+    findActivePagingBtn: function () {
+        var that = this;
+        var buttonArr = this.createArrayFromCollect();
+        if(!buttonArr.length) return this.isActivePage = null;
+        buttonArr.some(function(item) {
+            if(item.matches('.active-button')){
+                that.isActivePage = +item.textContent;
+            }else{
+                that.isActivePage = 1;
+            }});
+        this.changeClassBtnPaging();
     },
 
     returnPagingArray: function (btn, array) {
         if(!btn){
             return array
         }
-        var activeBtn = +btn.textContent - 1;
-        var startIndex = this.indexPaging * activeBtn;
-        var endIndex = this.indexPaging * activeBtn + this.indexPaging;
+        btn = btn - 1;
+        var startIndex = this.indexPaging * btn;
+        var endIndex = this.indexPaging * btn + this.indexPaging;
+        this.isActivePage = 1;
         return array.slice(startIndex, endIndex);
     },
 
     setPagingArray: function(arr) {
-        this.createBtnPaging(arr);
-        var activeBtn = this.findActivePagingBtn(arr);
-        return this.returnPagingArray(activeBtn, arr);
+        this.createButtonPagination(arr);
+        this.findActivePagingBtn();
+        return this.returnPagingArray(this.isActivePage, arr);
     }
 };
 

@@ -47,15 +47,16 @@ App.prototype = {
     },
 
     render: function() {
-        var filteredArr = filter.createFilteredArray(this.listArr); //array with how filter button active?
-        var finishArr = paging.setPagingArray(filteredArr); //
+        var filteredArr = filter.setFilteredArray(this.listArr); //array with how filter button active?
+        var finishArr = paging.setPagingArray(filteredArr); //array after paging filtered
         // setStorage()
         //
         this.clearDomList();
         var fragment = document.createDocumentFragment();
         finishArr.forEach(function(item) {
-            fragment.appendChild(taskCreator.createNewTask(item,
-                this.removeTask.bind(this), this.checkTask.bind(this)));
+            fragment.appendChild(taskCreator.createNewTask(
+                item, this.removeTask.bind(this), this.checkTask.bind(this)
+            ));
         }.bind(this));
 
         var tasksList = document.querySelector('.todo-list');
