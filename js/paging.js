@@ -72,7 +72,6 @@ Paging.prototype = {
         btn = btn - 1;
         var startIndex = this.indexPaging * btn;
         var endIndex = this.indexPaging * btn + this.indexPaging;
-        this.isActivePage = 1;
         return array.slice(startIndex, endIndex);
     },
 

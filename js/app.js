@@ -47,8 +47,8 @@ App.prototype = {
     },
 
     render: function() {
-        var filteredArr = filter.setFilteredArray(this.listArr); //array with how filter button active?
-        var finishArr = paging.setPagingArray(filteredArr); //array after paging filtered
+        var filteredArr = filter.setFilteredArray(this.listArr);
+        var finishArr = paging.setPagingArray(filteredArr);
         // setStorage()
         //
         this.clearDomList();
