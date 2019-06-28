@@ -46,21 +46,6 @@ Filter.prototype = {
         return pushButton;
     },
 
-    setFilteredArray: function (arr) {
-      var activeBtn = this.findActiveFilter();
-      switch(activeBtn.innerText){
-          case 'All' : {
-           return this.returnAllTasks(activeBtn, arr);
-          }
-          case 'Active': {
-            return this.returnFilteredTasks(false, activeBtn, arr);
-          }
-          case 'Complete': {
-            return this.returnFilteredTasks(true, activeBtn, arr);
-          }
-      }
-    },
-
     returnAllTasks: function (btn, arr) {
         this.changeClass(btn);
         return arr
@@ -83,6 +68,21 @@ Filter.prototype = {
             item.classList.remove('active-button');
         });
         btn.classList.add('active-button');
+    },
+
+    setFilteredArray: function (arr) {
+        var activeBtn = this.findActiveFilter();
+        switch(activeBtn.innerText){
+            case 'All' : {
+                return this.returnAllTasks(activeBtn, arr);
+            }
+            case 'Active': {
+                return this.returnFilteredTasks(false, activeBtn, arr);
+            }
+            case 'Complete': {
+                return this.returnFilteredTasks(true, activeBtn, arr);
+            }
+        }
     }
 };
 

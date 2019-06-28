@@ -1,5 +1,0 @@
-function Button() {}
-
-Button.prototype = {
-
-};
