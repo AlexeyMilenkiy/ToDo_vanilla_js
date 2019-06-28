@@ -4,7 +4,8 @@ function Paging () {
 
     this.pagingInit = function(callback){
         var that = this;
-        // if(storage.getStorage().activePage) that.isActivePage = storage.getStorage().activePage;
+        var pageFromStorage = storage.getStorage().activePage;
+        if(pageFromStorage) that.isActivePage = pageFromStorage;
         var pagingBlock = document.querySelector('.paging-block');
         pagingBlock.onclick = function(e){
             var pushedBtnPaging = +e.target.textContent;

@@ -4,6 +4,8 @@ function Filter () {
 
     this.initFilterListener = function (callback) {
         var that = this;
+        var filterFromStorage = storage.getStorage().activeFilter;
+        if(filterFromStorage) that.activeFilter = filterFromStorage;
         this.changeClass();
         var buttonArr = this.createArrFromFilterBtns();
         buttonArr.forEach(function(item) {

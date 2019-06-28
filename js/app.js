@@ -12,6 +12,11 @@ function App () {
         addButton.addEventListener('click', this.addNewTaskInArr.bind(this));
         filter.initFilterListener(this.render.bind(this));
         paging.pagingInit(this.render.bind(this));
+        var tasksFromStorage = storage.getStorage().tasks;
+        if(tasksFromStorage){
+            that.listArr = tasksFromStorage;
+            that.render();
+        }
     };
 }
 
@@ -56,7 +61,6 @@ App.prototype = {
         var filteredArr = filter.setFilteredArray(this.listArr);
         var finishArr = paging.setPagingArray(filteredArr[0]);
         storage.setStorage(this.listArr, filteredArr[1], finishArr[1]);
-        //
         this.clearDomList();
         var fragment = document.createDocumentFragment();
         finishArr[0].forEach(function(item) {
