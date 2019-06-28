@@ -1,6 +1,6 @@
 function Paging () {
     this.indexPaging = 5;
-    this.isActivePage = null;
+    this.isActivePage = 1;
 
     this.pagingInit = function(callback){
         var that = this;
@@ -16,20 +16,6 @@ function Paging () {
 
 Paging.prototype = {
 
-    createArrayFromCollect: function() {
-        var buttonCollect = document.querySelector('.paging-block').children;
-        return Array.prototype.slice.call(buttonCollect);
-    },
-
-    changeClassBtnPaging: function () {
-        var that = this;
-        var buttonArr = this.createArrayFromCollect();
-        buttonArr.forEach(function(item, i) {
-            item.classList.remove('active-button');
-            if(i+1 === that.isActivePage) item.classList.add('active-button');
-        });
-    },
-
     clearPagingBlock: function (pagingList) {
         while (pagingList.lastChild) {
             pagingList.removeChild(pagingList.lastChild);
@@ -44,25 +30,15 @@ Paging.prototype = {
         var fragment = document.createDocumentFragment();
         for(var i = 0; i < amountPages; i++){
             var pagingBtn = document.createElement('button');
-            if(i+1 === that.isActivePage) pagingBtn.classList.add('active-button');
+            if(i+1 === that.isActivePage) {
+                pagingBtn.classList.add('active-button');
+                that.isActivePage = i+1;
+            }
             pagingBtn.classList.add('paging-button');
             pagingBtn.innerText = i+1 + '';
             fragment.appendChild(pagingBtn);
         }
         pagingBlock.appendChild(fragment);
-    },
-
-    findActivePagingBtn: function () {
-        var that = this;
-        var buttonArr = this.createArrayFromCollect();
-        if(!buttonArr.length) return this.isActivePage = null;
-        buttonArr.some(function(item) {
-            if(item.matches('.active-button')){
-                that.isActivePage = +item.textContent;
-            }else{
-                that.isActivePage = 1;
-            }});
-        this.changeClassBtnPaging();
     },
 
     returnPagingArray: function (btn, array) {
@@ -77,7 +53,6 @@ Paging.prototype = {
 
     setPagingArray: function(arr) {
         this.createButtonPagination(arr);
-        this.findActivePagingBtn();
         return this.returnPagingArray(this.isActivePage, arr);
     }
 };

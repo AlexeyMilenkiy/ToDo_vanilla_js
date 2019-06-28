@@ -2,7 +2,13 @@ function App () {
     this.listArr = [];
 
     this.init = function() {
+        var that = this;
         var addButton = document.querySelector('.add-task');
+        var inputTask = document.querySelector('.task-input');
+        inputTask.onkeyup = function(e) {
+            if (e.key !== 'Enter') return;
+            that.addNewTaskInArr();
+        };
         addButton.addEventListener('click', this.addNewTaskInArr.bind(this));
         filter.initFilterListener(this.render.bind(this));
         paging.pagingInit(this.render.bind(this));

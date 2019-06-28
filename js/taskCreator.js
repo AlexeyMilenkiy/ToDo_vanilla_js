@@ -3,13 +3,13 @@ function TaskCreator() {}
 TaskCreator.prototype= {
 
     returnObjTask: function() {
-        var inputTodo = document.querySelector('.todo-input');
-        var valueFromInput = inputTodo.value;
+        var inputTask = document.querySelector('.task-input');
+        var valueFromInput = inputTask.value;
         valueFromInput.replace(/\s/gu, '');
         if(!valueFromInput){
             return
         }
-        inputTodo.value = '';
+        inputTask.value = '';
         return new Task(valueFromInput);
     },
 

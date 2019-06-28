@@ -16,7 +16,7 @@ body{
     justify-content: space-between;
 }
 
-.todo-input{
+.task-input{
     width: 200px;
     height: 30px;
     outline: none;
