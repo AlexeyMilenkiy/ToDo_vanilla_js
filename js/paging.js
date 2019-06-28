@@ -33,6 +33,9 @@ Paging.prototype = {
             if(i+1 === that.isActivePage) {
                 pagingBtn.classList.add('active-button');
                 that.isActivePage = i+1;
+            }if(amountPages < that.isActivePage){
+                that.isActivePage = amountPages;
+                pagingBtn.classList.add('active-button');
             }
             pagingBtn.classList.add('paging-button');
             pagingBtn.innerText = i+1 + '';
@@ -41,19 +44,16 @@ Paging.prototype = {
         pagingBlock.appendChild(fragment);
     },
 
-    returnPagingArray: function (btn, array) {
-        if(!btn){
-            return array
-        }
-        btn = btn - 1;
-        var startIndex = this.indexPaging * btn;
-        var endIndex = this.indexPaging * btn + this.indexPaging;
+    returnPagingArray: function (array) {
+        var activeButton = this.isActivePage - 1;
+        var startIndex = this.indexPaging * activeButton;
+        var endIndex = this.indexPaging * activeButton + this.indexPaging;
         return array.slice(startIndex, endIndex);
     },
 
     setPagingArray: function(arr) {
         this.createButtonPagination(arr);
-        return this.returnPagingArray(this.isActivePage, arr);
+        return this.returnPagingArray(arr);
     }
 };
 
