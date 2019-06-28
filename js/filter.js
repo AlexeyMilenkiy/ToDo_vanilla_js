@@ -1,30 +1,16 @@
 function Filter () {
 
+    this.activeFilter = 'All';
+
     this.initFilterListener = function (callback) {
         var that = this;
+        this.changeClass();
         var buttonArr = this.createArrFromFilterBtns();
         buttonArr.forEach(function(item) {
-            switch (item.className) {
-                case 'all-tasks': {
-                    item.classList.add('active-button');
-                    item.addEventListener('click', function(){
-                        that.changeClass(item);
-                        callback();
-                    });
-                }break;
-                case 'active-tasks': {
-                    item.addEventListener('click', function(){
-                        that.changeClass(item);
-                        callback();
-                    });
-                }break;
-                case 'complete-tasks': {
-                    item.addEventListener('click', function(){
-                        that.changeClass(item);
-                        callback();
-                    });
-                }break;
-            }
+            item.addEventListener('click', function () {
+                that.activeFilter = item.textContent;
+                callback();
+            });
         });
     }
 }
@@ -36,51 +22,39 @@ Filter.prototype = {
         return Array.prototype.slice.call(buttonCollect);
     },
 
-    findActiveFilter: function () {
-        var buttonArr = this.createArrFromFilterBtns();
-        var pushButton = null;
-        buttonArr.forEach(function(item) {
-            if(item.matches('.active-button'))
-            pushButton = item;
-        });
-        return pushButton;
-    },
-
-    returnAllTasks: function (btn, arr) {
-        this.changeClass(btn);
-        return arr
-    },
-
-    returnFilteredTasks: function (bool, btn, arr) {
+    returnFilteredTasks: function (arr, bool) {
+        if(!bool){
+            return [arr,this.activeFilter];
+        }
         var filterArr = [];
         arr.forEach(function (item) {
            if(item.isComplete === bool){
                filterArr.push(item);
            }
         });
-        this.changeClass(btn);
-        return filterArr
+        return [filterArr, this.activeFilter];
     },
 
-    changeClass: function (btn) {
+    changeClass: function () {
+        var that = this;
         var buttonArr = this.createArrFromFilterBtns();
         buttonArr.forEach(function(item) {
             item.classList.remove('active-button');
+            if(item.textContent === that.activeFilter) item.classList.add('active-button');
         });
-        btn.classList.add('active-button');
     },
 
     setFilteredArray: function (arr) {
-        var activeBtn = this.findActiveFilter();
-        switch(activeBtn.innerText){
+        this.changeClass();
+        switch(this.activeFilter){
             case 'All' : {
-                return this.returnAllTasks(activeBtn, arr);
+                return this.returnFilteredTasks(arr);
             }
             case 'Active': {
-                return this.returnFilteredTasks(false, activeBtn, arr);
+                return this.returnFilteredTasks(arr, false);
             }
             case 'Complete': {
-                return this.returnFilteredTasks(true, activeBtn, arr);
+                return this.returnFilteredTasks(arr, true);
             }
         }
     }

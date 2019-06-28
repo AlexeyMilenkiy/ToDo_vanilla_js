@@ -54,12 +54,12 @@ App.prototype = {
 
     render: function() {
         var filteredArr = filter.setFilteredArray(this.listArr);
-        var finishArr = paging.setPagingArray(filteredArr);
-        // setStorage()
+        var finishArr = paging.setPagingArray(filteredArr[0]);
+        storage.setStorage(this.listArr, filteredArr[1], finishArr[1]);
         //
         this.clearDomList();
         var fragment = document.createDocumentFragment();
-        finishArr.forEach(function(item) {
+        finishArr[0].forEach(function(item) {
             fragment.appendChild(taskCreator.createNewTask(
                 item, this.removeTask.bind(this), this.checkTask.bind(this)
             ));

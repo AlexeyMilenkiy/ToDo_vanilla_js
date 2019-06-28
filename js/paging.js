@@ -4,6 +4,7 @@ function Paging () {
 
     this.pagingInit = function(callback){
         var that = this;
+        // if(storage.getStorage().activePage) that.isActivePage = storage.getStorage().activePage;
         var pagingBlock = document.querySelector('.paging-block');
         pagingBlock.onclick = function(e){
             var pushedBtnPaging = +e.target.textContent;
@@ -30,12 +31,11 @@ Paging.prototype = {
         var fragment = document.createDocumentFragment();
         for(var i = 0; i < amountPages; i++){
             var pagingBtn = document.createElement('button');
-            if(i+1 === that.isActivePage) {
+            if(amountPages < that.isActivePage) {
+                that.isActivePage = amountPages;
+            }if(i+1 === that.isActivePage) {
                 pagingBtn.classList.add('active-button');
                 that.isActivePage = i+1;
-            }if(amountPages < that.isActivePage){
-                that.isActivePage = amountPages;
-                pagingBtn.classList.add('active-button');
             }
             pagingBtn.classList.add('paging-button');
             pagingBtn.innerText = i+1 + '';
@@ -48,7 +48,8 @@ Paging.prototype = {
         var activeButton = this.isActivePage - 1;
         var startIndex = this.indexPaging * activeButton;
         var endIndex = this.indexPaging * activeButton + this.indexPaging;
-        return array.slice(startIndex, endIndex);
+        var newArr = array.slice(startIndex, endIndex);
+        return [newArr, this.isActivePage];
     },
 
     setPagingArray: function(arr) {

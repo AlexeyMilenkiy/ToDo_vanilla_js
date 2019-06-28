@@ -12,6 +12,12 @@ Storage.prototype = {
         }
     },
 
+    setStorage: function (arr, filter, page) {
+        this.saveActivePage(page);
+        this.saveTasksList(arr);
+        this.saveFilter(filter);
+    },
+
     saveTasksList: function (arr) {
         this.storage.setItem('tasks', JSON.stringify(arr));
     },
