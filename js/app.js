@@ -4,19 +4,17 @@ function App () {
     this.init = function() {
         var that = this;
         var addButton = document.querySelector('.add-task');
+        addButton.addEventListener('click', this.addNewTaskInArr.bind(this));
+        var tasksFromStorage = storage.getStorage().tasks;
         var inputTask = document.querySelector('.task-input');
+        if(tasksFromStorage) this.listArr = tasksFromStorage;
         inputTask.onkeyup = function(e) {
             if (e.key !== 'Enter') return;
             that.addNewTaskInArr();
         };
-        addButton.addEventListener('click', this.addNewTaskInArr.bind(this));
-        filter.initFilterListener(this.render.bind(this));
-        paging.pagingInit(this.render.bind(this));
-        var tasksFromStorage = storage.getStorage().tasks;
-        if(tasksFromStorage){
-            that.listArr = tasksFromStorage;
-            that.render();
-        }
+        filter.initFilterListener(this.render.bind(this), this.listArr);
+        paging.initPagingListener(this.render.bind(this), this.listArr);
+        if(tasksFromStorage) this.render();
     };
 }
 
@@ -52,8 +50,8 @@ App.prototype = {
 
     clearDomList: function() {
         var tasksList = document.querySelector('.todo-list');
-        while (tasksList.firstChild) {
-            tasksList.removeChild(tasksList.firstChild);
+        while (tasksList.lastChild) {
+            tasksList.removeChild(tasksList.lastChild);
         }
     },
 

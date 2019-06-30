@@ -3,51 +3,58 @@ function Filter () {
     this.activeFilter = 'All';
 
     this.initFilterListener = function (callback) {
-        var that = this;
         var filterFromStorage = storage.getStorage().activeFilter;
-        if(filterFromStorage) that.activeFilter = filterFromStorage;
-        this.changeClass();
-        var buttonArr = this.createArrFromFilterBtns();
-        buttonArr.forEach(function(item) {
-            item.addEventListener('click', function () {
-                that.activeFilter = item.textContent;
-                callback();
-            });
+        if(filterFromStorage) this.activeFilter = filterFromStorage;
+        var filterBlock = document.querySelector('.filter-block');
+        this.createFilterButtons();
+        filterBlock.addEventListener('click',function(e) {
+            if(e.target.tagName === 'BUTTON') callback();
         });
     }
 }
 
 Filter.prototype = {
 
-    createArrFromFilterBtns: function() {
-        var buttonCollect = document.querySelector('.filter-block').children;
-        return Array.prototype.slice.call(buttonCollect);
+    clearFilterBlock: function (container) {
+        while (container.lastChild) {
+            container.removeChild(container.lastChild);
+        }
+    },
+
+    createFilterButtons: function() {
+        var that = this;
+        var btnValue = ['All', 'Active', 'Complete'];
+        var buttonsContainer = document.querySelector('.filter-block');
+        this.clearFilterBlock(buttonsContainer);
+        var fragment = document.createDocumentFragment();
+
+        btnValue.forEach(function(item) {
+            var button = document.createElement('button');
+            button.className = item === that.activeFilter ? 'filter'+' active-btn' : 'filter';
+            button.innerText = item;
+            button.addEventListener('click', function() {
+                that.activeFilter = item;
+            });
+            fragment.appendChild(button);
+        });
+        buttonsContainer.appendChild(fragment);
     },
 
     returnFilteredTasks: function (arr, bool) {
-        if(!bool){
-            return [arr,this.activeFilter];
+        if(!bool && bool !== false) {
+            return [arr, this.activeFilter];
         }
         var filterArr = [];
         arr.forEach(function (item) {
-           if(item.isComplete === bool){
+           if(item.isComplete === bool) {
                filterArr.push(item);
            }
         });
         return [filterArr, this.activeFilter];
     },
 
-    changeClass: function () {
-        var that = this;
-        var buttonArr = this.createArrFromFilterBtns();
-        buttonArr.forEach(function(item) {
-            item.classList.remove('active-button');
-            if(item.textContent === that.activeFilter) item.classList.add('active-button');
-        });
-    },
-
     setFilteredArray: function (arr) {
-        this.changeClass();
+        this.createFilterButtons();
         switch(this.activeFilter){
             case 'All' : {
                 return this.returnFilteredTasks(arr);

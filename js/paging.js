@@ -2,17 +2,15 @@ function Paging () {
     this.indexPaging = 5;
     this.isActivePage = 1;
 
-    this.pagingInit = function(callback){
+    this.initPagingListener = function(callback, arr) {
         var that = this;
         var pageFromStorage = storage.getStorage().activePage;
         if(pageFromStorage) that.isActivePage = pageFromStorage;
+        this.createButtonPagination(arr);
         var pagingBlock = document.querySelector('.paging-block');
-        pagingBlock.onclick = function(e){
-            var pushedBtnPaging = +e.target.textContent;
-            if(e.target.tagName === 'DIV') return;
-            that.isActivePage = pushedBtnPaging;
-            callback();
-        }
+        pagingBlock.addEventListener('click', function(e){
+            if(e.target.tagName === 'BUTTON') callback();
+        });
     }
 }
 
@@ -30,12 +28,17 @@ Paging.prototype = {
         var amountPages = Math.ceil(arr.length/ this.indexPaging);
         this.clearPagingBlock(pagingBlock);
         var fragment = document.createDocumentFragment();
-        for(var i = 0; i < amountPages; i++){
+        for(var i = 0; i < amountPages; i++) {
             var pagingBtn = document.createElement('button');
+            pagingBtn.addEventListener('click', function(i) {
+                return function () {
+                    that.isActivePage = i+1;
+                }
+            }(i));
             if(amountPages < that.isActivePage) {
                 that.isActivePage = amountPages;
             }if(i+1 === that.isActivePage) {
-                pagingBtn.classList.add('active-button');
+                pagingBtn.classList.add('active-btn');
                 that.isActivePage = i+1;
             }
             pagingBtn.classList.add('paging-button');
