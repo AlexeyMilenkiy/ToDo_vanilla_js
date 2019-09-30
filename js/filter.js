@@ -25,15 +25,26 @@ Filter.prototype = {
     },
 
     returnFilteredTasks: function (arr, bool) {
-        if(!bool){
-            return [arr,this.activeFilter];
-        }
         var filterArr = [];
-        arr.forEach(function (item) {
-           if(item.isComplete === bool){
-               filterArr.push(item);
-           }
-        });
+
+        if(bool === undefined) {
+            return [arr,this.activeFilter];
+
+        } else if(!bool) {
+
+            arr.forEach(function (item) {
+                if(item.isComplete === bool){
+                    filterArr.push(item);
+                }
+            })
+        } else {
+
+            arr.forEach(function (item) {
+                if(item.isComplete === bool){
+                    filterArr.push(item);
+                }
+            });
+        }
         return [filterArr, this.activeFilter];
     },
 
